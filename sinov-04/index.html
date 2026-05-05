@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Al Meymor — Premium Ustalar Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+  --bg-1:#0b0d17;
+  --bg-2:#10131f;
+  --surface:rgba(255,255,255,0.04);
+  --surface-2:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.10);
+  --text:#eef1f8;
+  --text-dim:#9aa3b8;
+  --accent:#ffb547;
+  --accent-2:#ff7a59;
+  --accent-3:#7c5cff;
+  --success:#34d399;
+  --danger:#ef4444;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --radius:18px;
+  --radius-sm:12px;
+}
+[data-theme="light"]{
+  --bg-1:#f5f7fb;
+  --bg-2:#eef1f8;
+  --surface:rgba(255,255,255,0.7);
+  --surface-2:rgba(255,255,255,0.95);
+  --border:rgba(20,25,45,0.08);
+  --text:#0f1424;
+  --text-dim:#5b6378;
+  --shadow:0 20px 60px rgba(20,25,45,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--bg-1);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:background .4s,color .4s;
+}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit}
+
+/* === ANIMATED MESH BACKGROUND === */
+.bg-wrap{position:fixed;inset:0;z-index:-2;overflow:hidden;background:var(--bg-1)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:float 18s ease-in-out infinite}
+.blob.b1{width:520px;height:520px;background:radial-gradient(circle,#ffb547,transparent 60%);top:-150px;left:-100px}
+.blob.b2{width:480px;height:480px;background:radial-gradient(circle,#7c5cff,transparent 60%);bottom:-120px;right:-80px;animation-delay:-6s}
+.blob.b3{width:400px;height:400px;background:radial-gradient(circle,#ff7a59,transparent 60%);top:40%;left:45%;animation-delay:-12s}
+.blob.b4{width:350px;height:350px;background:radial-gradient(circle,#34d399,transparent 60%);top:60%;left:80%;animation-delay:-9s}
+[data-theme="light"] .blob{opacity:.35}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(60px,-40px) scale(1.1)}
+  66%{transform:translate(-50px,30px) scale(.95)}
+}
+.grid-overlay{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 75%);
+}
+[data-theme="light"] .grid-overlay{
+  background-image:
+    linear-gradient(rgba(20,25,45,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(20,25,45,.04) 1px,transparent 1px);
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* === NAVBAR === */
+.nav{
+  position:fixed;top:16px;z-index:1000;left:50%;transform:translateX(-50%);max-width:1400px;width:calc(100% - 32px);
+  padding:14px 22px;display:flex;align-items:center;gap:24px;
+  background:var(--surface);backdrop-filter:blur(20px);
+  border:1px solid var(--border);border-radius:20px;
+  box-shadow:var(--shadow);
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;font-family:'Space Grotesk';cursor:pointer}
+.logo-mark{
+  width:38px;height:38px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:grid;place-items:center;color:#0b0d17;font-weight:800;
+  box-shadow:0 8px 20px rgba(255,181,71,.35);
+}
+.nav-links{display:flex;gap:6px;margin-left:18px;flex-wrap:wrap}
+.nav-links a{
+  padding:9px 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--text-dim);
+  transition:.2s;cursor:pointer;
+}
+.nav-links a:hover,.nav-links a.active{background:var(--surface-2);color:var(--text)}
+.nav-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.icon-btn{
+  width:42px;height:42px;border-radius:12px;background:var(--surface-2);
+  display:grid;place-items:center;border:1px solid var(--border);transition:.2s;
+}
+.icon-btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+.btn{
+  padding:11px 20px;border-radius:12px;font-weight:700;font-size:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0d17;
+  box-shadow:0 8px 24px rgba(255,122,89,.28);transition:.2s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,122,89,.45)}
+.btn-sm{padding:8px 16px;font-size:13px}
+.btn-ghost{background:var(--surface-2);color:var(--text);border:1px solid var(--border);box-shadow:none}
+.btn-ghost:hover{box-shadow:none;background:var(--surface)}
+.btn-success{background:linear-gradient(135deg,#34d399,#10b981);color:#fff}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+
+/* === LAYOUT === */
+.container{max-width:1400px;margin:0 auto;padding:24px}
+.main-content{padding-top:100px;min-height:100vh}
+.page{display:none;animation:fadeIn .4s}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* === GLASS CARD === */
+.glass{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  backdrop-filter:blur(20px);box-shadow:var(--shadow);
+}
+.glass-sm{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  backdrop-filter:blur(10px);
+}
+
+/* === HERO === */
+.hero{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+  padding:60px 40px;border-radius:28px;
+  background:var(--surface);border:1px solid var(--border);
+  backdrop-filter:blur(20px);box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,181,71,.18),transparent 50%);
+  pointer-events:none;
+}
+.hero h1{font-size:clamp(32px,4.5vw,58px);line-height:1.05;margin-bottom:18px}
+.hero h1 .grad{background:linear-gradient(135deg,var(--accent),var(--accent-2),var(--accent-3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--text-dim);font-size:17px;line-height:1.6;margin-bottom:28px;max-width:520px}
+.hero-stats{display:flex;gap:30px;margin-top:30px}
+.hero-stats div{text-align:left}
+.hero-stats b{display:block;font-size:26px;font-family:'Space Grotesk';color:var(--accent)}
+.hero-stats span{font-size:13px;color:var(--text-dim)}
+
+.search-box{
+  margin-top:30px;display:grid;grid-template-columns:1fr 1fr auto;gap:10px;
+  background:var(--surface-2);padding:10px;border-radius:16px;border:1px solid var(--border);
+  max-width:680px;
+}
+.search-box input{
+  background:transparent;border:none;outline:none;color:var(--text);
+  padding:12px 16px;font-size:15px;
+}
+.search-box input::placeholder{color:var(--text-dim)}
+
+/* === SECTIONS === */
+.section{margin-top:60px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}
+.section-head h2{font-size:32px}
+.section-head p{color:var(--text-dim);font-size:14px;margin-top:6px}
+
+/* === CATEGORIES === */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.cat-card{
+  padding:24px;border-radius:var(--radius);background:var(--surface);
+  border:1px solid var(--border);backdrop-filter:blur(20px);transition:.25s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.cat-card:hover{transform:translateY(-6px);border-color:var(--accent)}
+.cat-icon{
+  width:54px;height:54px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0d17;font-size:26px;margin-bottom:14px;
+}
+.cat-card h3{font-size:18px;margin-bottom:6px}
+.cat-card span{color:var(--text-dim);font-size:13px}
+
+/* === MASTERS === */
+.masters-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.master-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;backdrop-filter:blur(20px);transition:.25s;cursor:pointer;
+}
+.master-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.master-img{height:200px;background-size:cover;background-position:center;position:relative}
+.master-img .badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);color:#fff;padding:6px 10px;border-radius:99px;font-size:12px;font-weight:600;display:flex;gap:4px;align-items:center}
+.master-info{padding:16px}
+.master-info h4{font-size:17px;margin-bottom:4px}
+.master-info .role{color:var(--text-dim);font-size:13px;margin-bottom:12px}
+.master-meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-dim);padding-top:12px;border-top:1px dashed var(--border)}
+.price{color:var(--accent);font-weight:700;font-family:'Space Grotesk'}
+
+/* === BEFORE/AFTER === */
+.ba-card{border-radius:var(--radius);overflow:hidden;background:var(--surface);border:1px solid var(--border);position:relative;cursor:pointer;transition:.25s}
+.ba-card:hover{transform:translateY(-4px)}
+.ba-slider{position:relative;height:240px;overflow:hidden}
+.ba-slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba-slider .after-img{clip-path:inset(0 0 0 50%)}
+.ba-handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;cursor:ew-resize;z-index:5}
+.ba-handle::after{content:"⇆";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;background:#fff;color:#0b0d17;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.ba-labels{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;font-size:12px;font-weight:700;z-index:4}
+.ba-labels span{background:rgba(0,0,0,.6);color:#fff;padding:4px 10px;border-radius:99px}
+.ba-info{padding:16px}
+.ba-info h4{font-size:16px;margin-bottom:4px}
+.ba-info p{color:var(--text-dim);font-size:13px}
+
+/* === CTA BANNER === */
+.cta{
+  margin-top:80px;padding:50px;border-radius:28px;text-align:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0d17;
+  box-shadow:0 30px 60px rgba(255,122,89,.3);
+}
+.cta h2{font-size:36px;margin-bottom:12px}
+.cta p{font-size:16px;margin-bottom:24px;opacity:.85}
+
+/* === SERVICE DETAIL === */
+.detail-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:30px}
+.detail-main{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px;backdrop-filter:blur(20px)}
+.detail-side{position:sticky;top:120px;align-self:start}
+.detail-hero{height:340px;border-radius:var(--radius);background-size:cover;background-position:center;margin-bottom:24px;position:relative;overflow:hidden}
+.tabs{display:flex;gap:6px;margin:24px 0;border-bottom:1px solid var(--border)}
+.tabs button{padding:12px 18px;font-weight:600;color:var(--text-dim);border-bottom:2px solid transparent;transition:.2s}
+.tabs button.active{color:var(--accent);border-color:var(--accent)}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.portfolio-grid img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;transition:.2s}
+.portfolio-grid img:hover{transform:scale(1.03)}
+
+/* === FILTERS / MAP === */
+.with-side{display:grid;grid-template-columns:280px 1fr;gap:24px}
+.filters{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;backdrop-filter:blur(20px)}
+.filters h4{margin-bottom:14px;font-size:16px}
+.filter-block{margin-bottom:22px}
+.filter-block label{display:block;font-size:13px;color:var(--text-dim);margin-bottom:8px}
+.filters input[type=range]{width:100%}
+.chip{display:inline-block;padding:6px 12px;border:1px solid var(--border);border-radius:99px;font-size:12px;margin:3px 4px 0 0;cursor:pointer;transition:.15s}
+.chip.active{background:var(--accent);color:#0b0d17;border-color:var(--accent)}
+
+.map-card{
+  height:300px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:24px;position:relative;
+}
+.map-fake{
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#0d1f3c,#1a2f5c);
+  position:relative;overflow:hidden;
+}
+[data-theme="light"] .map-fake{background:linear-gradient(135deg,#e8f4f8,#d1e8f0)}
+.map-fake::before,.map-fake::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(124,92,255,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,92,255,.15) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.map-pin{position:absolute;width:32px;height:32px;border-radius:50% 50% 50% 0;background:var(--accent);transform:rotate(-45deg);box-shadow:0 6px 16px rgba(0,0,0,.4);animation:bounce 2s infinite;cursor:pointer}
+.map-pin::after{content:"";position:absolute;inset:7px;background:#fff;border-radius:50%}
+.map-pin.client-pin{background:var(--danger);width:40px;height:40px;z-index:10}
+@keyframes bounce{0%,100%{transform:rotate(-45deg) translateY(0)}50%{transform:rotate(-45deg) translateY(-8px)}}
+
+/* === FORMS === */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid .full{grid-column:span 2}
+.input-group{position:relative;margin-bottom:16px}
+.input-group label{display:block;font-size:13px;color:var(--text-dim);margin-bottom:6px;font-weight:600}
+.input-group input,.input-group select,.input-group textarea{
+  width:100%;padding:13px 16px;border-radius:12px;background:var(--surface-2);
+  border:1px solid var(--border);color:var(--text);font-size:14px;outline:none;transition:.2s;
+}
+.input-group input:focus,.input-group textarea:focus,.input-group select:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:90px}
+
+/* Floating Input for Auth */
+.floating-group{position:relative;margin-bottom:20px}
+.floating-input{
+  width:100%;padding:16px 16px 16px 44px;
+  border:2px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--surface-2);color:var(--text);font-size:15px;
+  outline:none;transition:.25s;
+}
+.floating-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(255,181,71,.15)}
+.floating-label{
+  position:absolute;left:44px;top:16px;color:var(--text-dim);
+  font-size:15px;pointer-events:none;transition:.25s;background:transparent;padding:0 4px;
+}
+.floating-input:focus + .floating-label,
+.floating-input:not(:placeholder-shown) + .floating-label{
+  top:-8px;left:12px;font-size:12px;font-weight:600;color:var(--accent);background:var(--bg-1);
+}
+.input-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:18px;z-index:1}
+.floating-input:focus ~ .input-icon{color:var(--accent)}
+
+/* === ORDER STATUSES === */
+.status-flow{display:flex;justify-content:space-between;margin:24px 0;position:relative;flex-wrap:wrap;gap:10px}
+.status-step{text-align:center;flex:1;min-width:80px}
+.status-step .dot{width:40px;height:40px;border-radius:50%;background:var(--surface-2);border:2px solid var(--border);margin:0 auto 8px;display:grid;place-items:center;font-weight:700;font-size:14px}
+.status-step.done .dot{background:var(--success);border-color:var(--success);color:#fff}
+.status-step.active .dot{background:var(--accent-2);border-color:var(--accent-2);color:#fff;animation:pulse 2s infinite}
+.status-step span{font-size:11px;color:var(--text-dim)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,122,89,.4)}50%{box-shadow:0 0 0 10px rgba(255,122,89,0)}}
+
+/* === CHAT === */
+.chat-wrap{display:grid;grid-template-columns:300px 1fr;gap:0;height:70vh;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(20px)}
+.chat-list{border-right:1px solid var(--border);overflow-y:auto}
+.chat-item{display:flex;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:.15s}
+.chat-item:hover,.chat-item.active{background:var(--surface-2)}
+.chat-item .avatar{width:46px;height:46px;flex-shrink:0;border-radius:50%;background-size:cover;background-position:center}
+.chat-item h5{font-size:14px;margin-bottom:3px}
+.chat-item p{font-size:12px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
+.chat-main{display:flex;flex-direction:column}
+.chat-header{padding:18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.chat-header .avatar{width:42px;height:42px;border-radius:50%;background-size:cover;background-position:center}
+.chat-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:60%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5}
+.msg.in{background:var(--surface-2);align-self:flex-start;border-top-left-radius:4px}
+.msg.out{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0d17;align-self:flex-end;border-top-right-radius:4px;font-weight:600}
+.msg .time{display:block;font-size:10px;opacity:.65;margin-top:4px}
+.typing{font-size:12px;color:var(--success);font-style:italic}
+.chat-input{padding:14px;border-top:1px solid var(--border);display:flex;gap:10px}
+.chat-input input{flex:1;padding:12px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;color:var(--text);outline:none}
+
+/* === PROFILE === */
+.profile-head{display:flex;gap:24px;align-items:center;padding:30px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(20px);margin-bottom:24px}
+.profile-head .avatar{width:96px;height:96px;border-radius:50%;background-size:cover;background-position:center}
+.profile-head h2{font-size:26px;margin-bottom:6px}
+.profile-head p{color:var(--text-dim);margin-bottom:10px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(20px)}
+.stat-card b{font-size:28px;font-family:'Space Grotesk';color:var(--accent);display:block}
+.stat-card span{color:var(--text-dim);font-size:13px}
+
+/* === NOTIFICATIONS === */
+.notif-item{display:flex;gap:14px;padding:16px;border-radius:12px;background:var(--surface);border:1px solid var(--border);margin-bottom:10px;align-items:start;backdrop-filter:blur(20px)}
+.notif-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;color:#0b0d17;flex-shrink:0;font-size:18px}
+.notif-item h5{font-size:15px;margin-bottom:4px}
+.notif-item p{color:var(--text-dim);font-size:13px}
+.notif-item time{font-size:11px;color:var(--text-dim);margin-top:6px;display:block}
+
+/* === AUTH === */
+.auth-container{
+  display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 120px);
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;backdrop-filter:blur(20px);box-shadow:var(--shadow);
+}
+.auth-brand{
+  background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
+  padding:60px 40px;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.auth-brand::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 70%,rgba(255,181,71,.18) 0%,transparent 50%),
+             radial-gradient(circle at 70% 30%,rgba(124,92,255,.15) 0%,transparent 50%);
+}
+.auth-form{padding:50px 40px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+.auth-form h2{font-size:28px;margin-bottom:8px}
+.auth-sub{color:var(--text-dim);margin-bottom:28px;font-size:16px}
+.auth-tabs{display:flex;gap:8px;margin-bottom:24px;border-bottom:2px solid var(--border);padding-bottom:12px}
+.auth-tab{padding:12px 24px;font-weight:600;color:var(--text-dim);background:none;cursor:pointer;transition:.2s;font-size:16px;position:relative}
+.auth-tab.active{color:var(--accent)}
+.auth-tab.active::after{content:"";position:absolute;bottom:-14px;left:0;right:0;height:2px;background:var(--accent)}
+
+.role-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;background:var(--surface-2);padding:6px;border-radius:var(--radius-sm)}
+.role-btn{padding:14px;border:2px solid transparent;background:transparent;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;transition:.25s;color:var(--text-dim);display:flex;align-items:center;justify-content:center;gap:8px}
+.role-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0d17;border-color:transparent;box-shadow:0 8px 20px rgba(255,181,71,.3)}
+.role-btn:hover:not(.active){border-color:var(--accent)}
+
+.upload-area{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:30px;text-align:center;cursor:pointer;transition:.25s;margin-bottom:20px}
+.upload-area:hover{border-color:var(--accent);background:var(--surface-2)}
+.upload-area i{font-size:32px;color:var(--text-dim);margin-bottom:10px;display:block}
+.upload-area p{color:var(--text-dim);font-size:14px}
+.upload-area span{font-size:12px;opacity:.7}
+.upload-area img{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);margin:0 auto;display:block}
+
+.portfolio-upload{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.portfolio-thumb{aspect-ratio:1;border-radius:10px;overflow:hidden;position:relative;background:var(--surface-2)}
+.portfolio-thumb img{width:100%;height:100%;object-fit:cover}
+.portfolio-thumb .remove{position:absolute;top:4px;right:4px;width:24px;height:24px;background:rgba(0,0,0,.7);border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:12px;color:#fff}
+
+.skills-input{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.skill-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:99px;font-size:13px;color:var(--text)}
+.skill-tag i{cursor:pointer;color:var(--danger)}
+
+.strength-bars{display:flex;gap:4px;margin-top:8px}
+.strength-bar{height:4px;flex:1;border-radius:2px;background:var(--border);transition:.3s}
+.strength-text{font-size:12px;margin-top:4px;color:var(--text-dim)}
+
+.checkbox-group{display:flex;align-items:start;gap:10px;margin:20px 0}
+.checkbox-group input{width:18px;height:18px;border-radius:6px;border:2px solid var(--border);accent-color:var(--accent);margin-top:2px}
+.checkbox-group label{font-size:13px;color:var(--text-dim);line-height:1.5}
+.checkbox-group a{color:var(--accent);text-decoration:underline}
+
+.social-divider{display:flex;align-items:center;gap:16px;margin:24px 0}
+.social-divider::before,.social-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.social-divider span{font-size:14px;color:var(--text-dim)}
+.social-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:var(--radius-sm);font-weight:600;font-size:14px;border:2px solid var(--border);transition:.25s;background:var(--surface-2);color:var(--text)}
+.social-btn:hover{border-color:var(--accent);transform:translateY(-2px)}
+.social-btn.telegram{background:linear-gradient(135deg,#229ED9,#1e88c7);color:#fff;border-color:transparent}
+.social-btn.google{background:#fff;color:#333;border-color:transparent}
+
+.auth-footer{text-align:center;margin-top:24px;font-size:14px;color:var(--text-dim)}
+.auth-footer a{color:var(--accent);font-weight:600;cursor:pointer}
+
+/* === REVIEWS === */
+.review{padding:16px;border:1px solid var(--border);border-radius:12px;margin-top:12px}
+.review-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.avatar{width:42px;height:42px;border-radius:50%;background-size:cover;background-position:center}
+.stars{color:var(--accent)}
+
+/* === RESPONSIVE === */
+@media(max-width:1100px){
+  .auth-container{grid-template-columns:1fr}
+  .auth-brand{min-height:300px;padding:40px 30px}
+  .hero{grid-template-columns:1fr;padding:30px}
+  .cat-grid,.masters-grid{grid-template-columns:repeat(2,1fr)}
+  .detail-grid,.with-side{grid-template-columns:1fr}
+  .chat-wrap{grid-template-columns:1fr}
+  .chat-list{max-height:200px}
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .full{grid-column:auto}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+}
+@media(max-width:640px){
+  .auth-form{padding:30px 20px}
+  .social-btns{grid-template-columns:1fr}
+  .cat-grid,.masters-grid{grid-template-columns:1fr}
+}
+
+footer{margin-top:80px;padding:40px 24px;text-align:center;color:var(--text-dim);font-size:13px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body data-theme="dark">
+
+<!-- Animated Background -->
+<div class="bg-wrap">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b4"></div>
+</div>
+<div class="grid-overlay"></div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="logo" onclick="go('home')">
+    <span class="logo-mark">A</span> Al Meymor
+  </div>
+  <div class="nav-links">
+    <a onclick="go('home')" data-link="home" class="active">Bosh sahifa</a>
+    <a onclick="go('services')" data-link="services">Xizmatlar</a>
+    <a onclick="go('masters')" data-link="masters">Ustalar</a>
+    <a onclick="go('projects')" data-link="projects">Loyihalar</a>
+    <a onclick="go('order')" data-link="order">Buyurtma</a>
+    <a onclick="go('chat')" data-link="chat">Chat</a>
+  </div>
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="go('notifications')" title="Bildirishnomalar"><i class="fas fa-bell"></i></button>
+    <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme"><i class="fas fa-moon"></i></button>
+    <button class="btn-ghost btn btn-sm" onclick="go('auth')">Kirish</button>
+    <button class="btn btn-sm" onclick="go('profile')">Profil</button>
+  </div>
+</nav>
+
+<div class="main-content">
+<main class="container">
+
+<!-- ============ HOME ============ -->
+<section class="page active" id="home">
+  <div class="hero">
+    <div>
+      <div style="display:inline-block;padding:6px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:99px;font-size:12px;margin-bottom:18px;">
+        ⭐ O'zbekistondagi #1 ustalar platformasi
+      </div>
+      <h1>Eng yaxshi <span class="grad">ustalarni</span><br>uyingizga yetkazamiz</h1>
+      <p>Arxitektor, qurilish, remont, santexnika va boshqa xizmatlar. Ishonchli ustalar, shaffof narxlar va Google Map orqali eng yaqin mutaxassisni toping.</p>
+      
+      <div class="search-box">
+        <input placeholder="🔍 Qaysi xizmat kerak?" />
+        <input placeholder="📍 Joylashuv (Toshkent...)" />
+        <button class="btn" onclick="go('services')">Qidirish</button>
+      </div>
+
+      <div class="hero-stats">
+        <div><b>2,500+</b><span>Faol ustalar</span></div>
+        <div><b>15K+</b><span>Bajarilgan loyihalar</span></div>
+        <div><b>4.9★</b><span>O'rtacha reyting</span></div>
+      </div>
+    </div>
+    <div style="border-radius:24px;overflow:hidden;height:360px;background-image:linear-gradient(135deg,rgba(0,0,0,.55),rgba(0,0,0,.05)),url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900');background-size:cover;background-position:center;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;border:1px solid var(--border)">
+      <span style="display:inline-block;padding:6px 12px;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);border-radius:99px;font-size:12px;width:fit-content;margin-bottom:10px">🏆 Top loyiha</span>
+      <h3 style="font-size:24px;margin-bottom:6px">Modern Euro remont</h3>
+      <p style="opacity:.85">Yunusobod, 3 xonali kvartira</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div><h2>Kategoriyalar</h2><p>Sizga kerakli xizmat turini tanlang</p></div>
+      <button class="btn-ghost btn btn-sm" onclick="go('services')">Hammasi →</button>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div><h2>⭐ Top ustalar</h2><p>Eng yuqori reytingga ega mutaxassislar</p></div>
+      <button class="btn-ghost btn btn-sm" onclick="go('masters')">Barchasi →</button>
+    </div>
+    <div class="masters-grid" id="topMasters"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div><h2>Before / After loyihalar</h2><p>Bizning ustalar amalga oshirgan transformatsiyalar</p></div>
+      <button class="btn-ghost btn btn-sm" onclick="go('projects')">Barchasi →</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" id="baGrid"></div>
+  </div>
+
+  <div class="cta">
+    <h2>Loyihangizni boshlashga tayyormisiz?</h2>
+    <p>So'rov yuboring, mos ustalar 24 soat ichida bog'lanadi</p>
+    <button class="btn" style="background:#0b0d17;color:#fff" onclick="go('order')">So'rov yuborish →</button>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="page" id="services">
+  <div class="section-head" style="margin-top:0">
+    <div><h2>Barcha xizmatlar</h2><p>8 ta asosiy yo'nalish bo'yicha mutaxassislar</p></div>
+  </div>
+  <div class="cat-grid" id="catGridFull"></div>
+
+  <div class="section">
+    <div class="section-head">
+      <div><h2>Tavsifli xizmatlar</h2><p>Har bir xizmat haqida batafsil ma'lumot</p></div>
+    </div>
+    <div class="masters-grid" id="serviceCards"></div>
+  </div>
+</section>
+
+<!-- ============ SERVICE DETAIL ============ -->
+<section class="page" id="serviceDetail">
+  <button class="btn-ghost btn btn-sm" onclick="go('services')" style="margin-bottom:20px"><i class="fas fa-arrow-left" style="margin-right:8px"></i>Orqaga</button>
+  <div class="detail-grid">
+    <div class="detail-main">
+      <div class="detail-hero" id="sdHero"></div>
+      <h2 id="sdTitle">Xizmat nomi</h2>
+      <p style="color:var(--text-dim);margin-top:8px" id="sdDesc"></p>
+      
+      <div class="tabs" id="detailTabs">
+        <button class="active" onclick="switchTab(event,'tab-about')">Tavsif</button>
+        <button onclick="switchTab(event,'tab-port')">Portfolio</button>
+        <button onclick="switchTab(event,'tab-rev')">Sharhlar</button>
+        <button onclick="switchTab(event,'tab-price')">Narxlar</button>
+      </div>
+
+      <div id="tab-about" class="tab-content">
+        <h4 style="margin-bottom:10px">Xizmat haqida</h4>
+        <p style="color:var(--text-dim);line-height:1.7" id="sdLong"></p>
+        <h4 style="margin:20px 0 10px">Nimalarni o'z ichiga oladi</h4>
+        <ul style="color:var(--text-dim);padding-left:20px;line-height:1.9" id="sdList"></ul>
+      </div>
+
+      <div id="tab-port" class="tab-content" style="display:none">
+        <div class="portfolio-grid" id="sdPortfolio"></div>
+      </div>
+
+      <div id="tab-rev" class="tab-content" style="display:none">
+        <div id="sdReviews"></div>
+      </div>
+
+      <div id="tab-price" class="tab-content" style="display:none">
+        <div id="sdPrices"></div>
+      </div>
+    </div>
+
+    <aside class="detail-side">
+      <div class="detail-main">
+        <h4 style="margin-bottom:12px">Tezkor harakat</h4>
+        <button class="btn" style="width:100%;margin-bottom:10px" onclick="go('order')"><i class="fas fa-clipboard-list" style="margin-right:8px"></i>Buyurtma berish</button>
+        <button class="btn-ghost btn" style="width:100%;margin-bottom:18px" onclick="go('chat')"><i class="fas fa-comments" style="margin-right:8px"></i>Chat boshlash</button>
+        
+        <div style="border-top:1px solid var(--border);padding-top:18px">
+          <h4 style="margin-bottom:14px">Mos ustalar</h4>
+          <div id="sdMasters"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ MASTERS + MAP + FILTERS ============ -->
+<section class="page" id="masters">
+  <div class="section-head" style="margin-top:0">
+    <div><h2>Ustalar katalogi</h2><p>Filtrlar yordamida o'zingizga mosini toping</p></div>
+  </div>
+
+  <div class="map-card">
+    <div class="map-fake" id="mapArea">
+      <div class="map-pin client-pin" style="top:45%;left:50%" title="Sizning manzilingiz"></div>
+      <div class="map-pin" style="top:30%;left:25%" onclick="alert('Usta: Bobur Aliyev - 500m')"></div>
+      <div class="map-pin" style="top:55%;left:40%;animation-delay:.3s" onclick="alert('Usta: Doniyor Yusupov - 1.2km')"></div>
+      <div class="map-pin" style="top:35%;left:65%;animation-delay:.6s" onclick="alert('Usta: Sardor Toshmatov - 2.1km')"></div>
+      <div class="map-pin" style="top:60%;left:70%;animation-delay:.9s" onclick="alert('Usta: Jasur Ergashev - 3.5km')"></div>
+      <div style="position:absolute;bottom:16px;left:16px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);color:#fff;padding:10px 16px;border-radius:12px;font-size:13px">
+        <i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Toshkent, Yunusobod · <b>24 ta usta</b> yaqin
+      </div>
+    </div>
+  </div>
+
+  <div class="with-side">
+    <aside class="filters">
+      <h4><i class="fas fa-sliders-h" style="margin-right:8px;color:var(--accent)"></i>Filtrlar</h4>
+      <div class="filter-block">
+        <label>Joylashuv</label>
+        <select style="width:100%;padding:10px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);color:var(--text)">
+          <option>Toshkent shahri</option><option>Samarqand</option><option>Buxoro</option><option>Andijon</option>
+        </select>
+      </div>
+      <div class="filter-block">
+        <label>Narx oralig'i</label>
+        <input type="range" min="100000" max="10000000" value="3000000" id="priceRange" oninput="document.getElementById('priceVal').textContent=(this.value/1000000).toFixed(1)+'M'">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);margin-top:4px"><span>100K</span><span id="priceVal">3.0M</span></div>
+      </div>
+      <div class="filter-block">
+        <label>Reyting</label>
+        <div id="ratingChips"></div>
+      </div>
+      <div class="filter-block">
+        <label>Tajriba</label>
+        <div id="expChips"></div>
+      </div>
+      <div class="filter-block">
+        <label>Kategoriya</label>
+        <div id="catChips"></div>
+      </div>
+      <button class="btn" style="width:100%"><i class="fas fa-search" style="margin-right:8px"></i>Qo'llash</button>
+    </aside>
+
+    <div class="masters-grid" id="allMasters"></div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS (Before/After) ============ -->
+<section class="page" id="projects">
+  <div class="section-head" style="margin-top:0">
+    <div><h2>Before / After loyihalar</h2><p>Bizning ustalar amalga oshirgan ishlar</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" id="baGridFull"></div>
+</section>
+
+<!-- ============ ORDER ============ -->
+<section class="page" id="order">
+  <div class="section-head" style="margin-top:0">
+    <div><h2>So'rov yuborish</h2><p>Forma to'ldiring, mos ustalar siz bilan bog'lanishadi</p></div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="detail-main">
+      <div class="form-grid">
+        <div class="input-group"><label>Ism</label><input placeholder="Akmal" id="orderName"></div>
+        <div class="input-group"><label>Familiya</label><input placeholder="Karimov" id="orderSurname"></div>
+        <div class="input-group"><label>Telefon raqam</label><input placeholder="+998 90 123 45 67" id="orderPhone"></div>
+        <div class="input-group">
+          <label>Xizmat turi</label>
+          <select id="orderService">
+            <option>Arxitektura</option><option>Qurilish</option><option>Travertin</option>
+            <option>Euro remont</option><option>Beton</option><option>Santexnika</option>
+            <option>Mebel</option><option>Reklama</option>
+          </select>
+        </div>
+        <div class="input-group full">
+          <label>Manzil (xaritada belgilang)</label>
+          <input placeholder="📍 Toshkent, Mirzo Ulug'bek tumani" id="orderAddress">
+        </div>
+        <div class="input-group full">
+          <div class="map-card" style="height:220px;margin:0">
+            <div class="map-fake"><div class="map-pin client-pin" style="top:45%;left:50%"></div></div>
+          </div>
+        </div>
+        <div class="input-group full"><label>Loyiha tavsifi</label><textarea placeholder="Loyiha haqida batafsil yozing..." id="orderDesc"></textarea></div>
+        <div class="input-group"><label>Muddat</label><input type="date" id="orderDate"></div>
+        <div class="input-group"><label>Fayl yuklash</label><input type="file" id="orderFile"></div>
+        <button class="btn full" style="padding:16px" onclick="submitOrder()"><i class="fas fa-paper-plane" style="margin-right:8px"></i>So'rov yuborish</button>
+      </div>
+    </div>
+
+    <aside class="detail-side">
+      <div class="detail-main">
+        <h4 style="margin-bottom:18px">Buyurtma holati</h4>
+        <div class="status-flow" style="flex-direction:column;gap:14px">
+          <div class="status-step done" style="display:flex;align-items:center;gap:12px;text-align:left"><div class="dot"><i class="fas fa-check"></i></div><div><b>Yuborildi</b><br><span style="color:var(--success)">Bugun, 14:30</span></div></div>
+          <div class="status-step active" style="display:flex;align-items:center;gap:12px;text-align:left"><div class="dot">2</div><div><b>Ko'rib chiqilmoqda</b><br><span>Hozir</span></div></div>
+          <div class="status-step" style="display:flex;align-items:center;gap:12px;text-align:left"><div class="dot">3</div><div><b>Qabul qilindi</b><br><span>—</span></div></div>
+          <div class="status-step" style="display:flex;align-items:center;gap:12px;text-align:left"><div class="dot">4</div><div><b>Jarayonda</b><br><span>—</span></div></div>
+          <div class="status-step" style="display:flex;align-items:center;gap:12px;text-align:left"><div class="dot">5</div><div><b>Tugallandi</b><br><span>—</span></div></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ CHAT ============ -->
+<section class="page" id="chat">
+  <div class="section-head" style="margin-top:0">
+    <div><h2>Xabarlar</h2><p>Mijoz va usta o'rtasidagi real-time chat</p></div>
+  </div>
+
+  <div class="chat-wrap">
+    <div class="chat-list" id="chatList"></div>
+    <div class="chat-main">
+      <div class="chat-header">
+        <div class="avatar" style="background-image:url(https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=100)"></div>
+        <div style="flex:1">
+          <h5>Bobur Aliyev</h5>
+          <div class="typing" id="typingState"><i class="fas fa-circle" style="font-size:8px;margin-right:4px"></i>online</div>
+        </div>
+        <button class="btn-ghost btn btn-sm"><i class="fas fa-phone"></i></button>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg in">Salom! Loyihangiz haqida ma'lumot oldim. <span class="time">14:20</span></div>
+        <div class="msg out">Salom! Qachon ko'rib chiqishingiz mumkin? <span class="time">14:22</span></div>
+        <div class="msg in">Ertaga ertalab borishim mumkin. Manzilingizni yuboring iltimos. <span class="time">14:23</span></div>
+        <div class="msg out">📎 manzil.pdf yuborildi <span class="time">14:25</span></div>
+        <div class="msg in">Rahmat! Ertaga ertalab 9:00 da yetib kelaman. <span class="time">14:27</span></div>
+      </div>
+      <div class="chat-input">
+        <button class="icon-btn"><i class="fas fa-paperclip"></i></button>
+        <button class="icon-btn"><i class="fas fa-image"></i></button>
+        <input id="chatInput" placeholder="Xabar yozing..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="btn btn-sm" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROFILE ============ -->
+<section class="page" id="profile">
+  <div class="profile-head">
+    <div class="avatar" style="background-image:url(https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200)"></div>
+    <div style="flex:1">
+      <h2>Akmal Karimov</h2>
+      <p><i class="fas fa-map-marker-alt" style="margin-right:4px"></i>Toshkent · <i class="fas fa-phone" style="margin-right:4px;margin-left:8px"></i>+998 90 123 45 67</p>
+      <button class="btn-ghost btn btn-sm"><i class="fas fa-edit" style="margin-right:6px"></i>Profilni tahrirlash</button>
+    </div>
+    <div style="text-align:right">
+      <div class="stars" style="font-size:18px">★★★★★</div>
+      <span style="color:var(--text-dim);font-size:13px">12 ta sharh</span>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><b>24</b><span>Buyurtmalar</span></div>
+    <div class="stat-card"><b>18</b><span>Tugatilgan</span></div>
+    <div class="stat-card"><b>5</b><span>Saqlangan ustalar</span></div>
+    <div class="stat-card"><b>3</b><span>Faol chatlar</span></div>
+  </div>
+
+  <div class="tabs" id="profileTabs">
+    <button class="active" onclick="switchProfileTab(event,'profile-orders')">Buyurtmalar</button>
+    <button onclick="switchProfileTab(event,'profile-saved')">Saqlangan</button>
+    <button onclick="switchProfileTab(event,'profile-reviews')">Sharhlar</button>
+    <button onclick="switchProfileTab(event,'profile-settings')">Sozlamalar</button>
+  </div>
+
+  <div id="profile-orders" class="profile-tab">
+    <div class="notif-item">
+      <div class="notif-icon"><i class="fas fa-home"></i></div>
+      <div style="flex:1">
+        <h5>Euro remont — 3 xonali kvartira</h5>
+        <p>Usta: Bobur Aliyev · Holati: <b style="color:var(--success)">Jarayonda</b></p>
+        <time>3 kun oldin</time>
+      </div>
+      <button class="btn-ghost btn btn-sm" onclick="go('order')">Batafsil</button>
+    </div>
+    <div class="notif-item">
+      <div class="notif-icon"><i class="fas fa-couch"></i></div>
+      <div style="flex:1">
+        <h5>Mebel — Oshxona shkafi</h5>
+        <p>Usta: Sardor Toshmatov · Holati: <b style="color:var(--accent)">Tugallandi</b></p>
+        <time>1 hafta oldin</time>
+      </div>
+      <button class="btn-ghost btn btn-sm">Batafsil</button>
+    </div>
+  </div>
+
+  <div id="profile-saved" class="profile-tab" style="display:none">
+    <div class="masters-grid" style="grid-template-columns:repeat(3,1fr)" id="savedMasters"></div>
+  </div>
+
+  <div id="profile-reviews" class="profile-tab" style="display:none">
+    <div class="review">
+      <div class="review-head">
+        <div class="avatar" style="background-image:url(https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=100)"></div>
+        <div style="flex:1"><h5>Bobur Aliyev haqida</h5><div class="stars">★★★★★</div></div>
+      </div>
+      <p style="color:var(--text-dim);margin-top:8px">Juda professional ish! Loyihani vaqtida tugatdi, sifati a'lo darajada.</p>
+      <time style="color:var(--text-dim);font-size:12px;display:block;margin-top:8px">2 kun oldin</time>
+    </div>
+  </div>
+
+  <div id="profile-settings" class="profile-tab" style="display:none">
+    <div class="detail-main" style="max-width:600px">
+      <h4 style="margin-bottom:20px">Shaxsiy ma'lumotlar</h4>
+      <div class="form-grid">
+        <div class="input-group"><label>Ism</label><input value="Akmal"></div>
+        <div class="input-group"><label>Familiya</label><input value="Karimov"></div>
+        <div class="input-group"><label>Telefon</label><input value="+998 90 123 45 67"></div>
+        <div class="input-group"><label>Email</label><input value="akmal@gmail.com"></div>
+        <button class="btn full">Saqlash</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOTIFICATIONS ============ -->
+<section class="page" id="notifications">
+  <div class="section-head" style="margin-top:0"><div><h2>Bildirishnomalar</h2><p>Barcha yangiliklar bir joyda</p></div></div>
+  <div>
+    <div class="notif-item"><div class="notif-icon" style="background:linear-gradient(135deg,#34d399,#10b981)"><i class="fas fa-check"></i></div><div><h5>Buyurtmangiz qabul qilindi</h5><p>Bobur Aliyev sizning so'rovingizni qabul qildi</p><time>5 daqiqa oldin</time></div></div>
+    <div class="notif-item"><div class="notif-icon" style="background:linear-gradient(135deg,#7c5cff,#6366f1)"><i class="fas fa-comment"></i></div><div><h5>Yangi xabar</h5><p>Sardor Toshmatov sizga xabar yubordi</p><time>1 soat oldin</time></div></div>
+    <div class="notif-item"><div class="notif-icon"><i class="fas fa-star"></i></div><div><h5>Sharhingiz qoldirildi</h5><p>Akmal Karimov sizga 5 yulduz qo'ydi</p><time>3 soat oldin</time></div></div>
+    <div class="notif-item"><div class="notif-icon" style="background:linear-gradient(135deg,#229ED9,#1e88c7)"><i class="fas fa-gift"></i></div><div><h5>Promo: 20% chegirma</h5><p>Birinchi buyurtmada barcha xizmatlarga 20% chegirma</p><time>Kecha</time></div></div>
+  </div>
+</section>
+
+<!-- ============ AUTH ============ -->
+<section class="page" id="auth">
+  <div class="auth-container">
+    <div class="auth-brand">
+      <div style="position:relative;z-index:1">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:40px">
+          <div style="width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:24px;font-weight:800;color:#0b0d17;box-shadow:0 12px 30px rgba(255,181,71,.4)">A</div>
+          <div>
+            <h3 style="font-size:28px;color:#fff">Al Meymor</h3>
+            <p style="color:rgba(255,255,255,.6);font-size:14px">Premium Qurilish Platformasi</p>
+          </div>
+        </div>
+        <h2 style="font-size:36px;color:#fff;line-height:1.2;margin-bottom:20px">O'zbekistondagi eng ishonchli ustalar platformasi</h2>
+        <p style="color:rgba(255,255,255,.7);font-size:16px;line-height:1.7;margin-bottom:40px">
+          Arxitekturadan tortib yevro-remontgacha — eng saralangan mutaxassislarni bir joyda toping.
+        </p>
+        <div style="display:grid;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px;color:#fff">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,181,71,.2);display:grid;place-items:center"><i class="fas fa-users" style="color:var(--accent)"></i></div>
+            <span>2,500+ professional ustalar</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;color:#fff">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(52,211,153,.2);display:grid;place-items:center"><i class="fas fa-map-marker-alt" style="color:var(--success)"></i></div>
+            <span>Google Map integratsiyasi</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;color:#fff">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(124,92,255,.2);display:grid;place-items:center"><i class="fas fa-shield-alt" style="color:var(--accent-3)"></i></div>
+            <span>Xavfsiz to'lov va shartnoma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="auth-form">
+      <div style="max-width:420px;width:100%;margin:0 auto">
+        <h2 id="authTitle">Xush kelibsiz 👋</h2>
+        <p class="auth-sub" id="authSub">Davom etish uchun ma'lumotlaringizni kiriting</p>
+        
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="switchAuth('login')">Kirish</button>
+          <button class="auth-tab" onclick="switchAuth('register')">Ro'yxatdan o'tish</button>
+        </div>
+        
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <div class="floating-group">
+            <input type="text" class="floating-input" id="loginName" placeholder=" ">
+            <label class="floating-label">Ism familiya</label>
+            <i class="input-icon fas fa-user"></i>
+          </div>
+          <div class="floating-group">
+            <input type="password" class="floating-input" id="loginPassword" placeholder=" ">
+            <label class="floating-label">Parol</label>
+            <i class="input-icon fas fa-lock"></i>
+            <button type="button" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-dim);cursor:pointer;z-index:2" onclick="togglePass('loginPassword')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;color:var(--text-dim)"><input type="checkbox" style="accent-color:var(--accent)"> Eslab qolish</label>
+            <a style="color:var(--accent);font-size:14px;cursor:pointer">Parolni unutdingizmi?</a>
+          </div>
+          <button class="btn" style="width:100%;padding:16px;font-size:16px;margin-bottom:24px" onclick="handleLogin()"><i class="fas fa-sign-in-alt" style="margin-right:8px"></i>Kirish</button>
+          <div class="social-divider"><span>yoki</span></div>
+          <div class="social-btns">
+            <button class="social-btn telegram"><i class="fab fa-telegram"></i> Telegram</button>
+            <button class="social-btn google"><i class="fab fa-google"></i> Google</button>
+          </div>
+        </div>
+        
+        <!-- REGISTER -->
+        <div id="registerForm" style="display:none">
+          <div class="role-switch">
+            <button class="role-btn active" onclick="selectRole('client')" id="clientRole"><i class="fas fa-user"></i> Mijoz</button>
+            <button class="role-btn" onclick="selectRole('master')" id="masterRole"><i class="fas fa-tools"></i> Usta</button>
+          </div>
+          
+          <!-- CLIENT -->
+          <div id="clientRegister">
+            <div class="floating-group">
+              <div class="upload-area" onclick="document.getElementById('clientPhoto').click()" style="padding:20px;margin-bottom:16px">
+                <i class="fas fa-camera" id="clientPhotoIcon"></i>
+                <p id="clientPhotoText">Profil rasmini yuklang</p>
+              </div>
+              <input type="file" id="clientPhoto" class="hidden" accept="image/*" onchange="previewPhoto(this,'clientPhotoIcon','clientPhotoText')">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="floating-group"><input type="text" class="floating-input" id="cName" placeholder=" "><label class="floating-label">Ism</label><i class="input-icon fas fa-user"></i></div>
+              <div class="floating-group"><input type="text" class="floating-input" id="cSurname" placeholder=" "><label class="floating-label">Familiya</label><i class="input-icon fas fa-user"></i></div>
+            </div>
+            <div class="floating-group"><input type="tel" class="floating-input" id="cPhone" placeholder=" "><label class="floating-label">Telefon raqam</label><i class="input-icon fas fa-phone"></i></div>
+            <div class="floating-group"><input type="email" class="floating-input" id="cGoogle" placeholder=" "><label class="floating-label">Google akkaunt (ixtiyoriy)</label><i class="input-icon fab fa-google"></i></div>
+            <div class="floating-group">
+              <input type="password" class="floating-input" id="cPass" placeholder=" " oninput="checkStrength(this.value,'c')">
+              <label class="floating-label">Parol yarating</label><i class="input-icon fas fa-lock"></i>
+            </div>
+            <div class="strength-bars" id="cStrengthBars"><div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div></div>
+            <div class="strength-text" id="cStrengthText">Parol kuchsiz</div>
+            <div class="floating-group" style="margin-top:16px"><input type="password" class="floating-input" id="cConfirm" placeholder=" "><label class="floating-label">Parolni tasdiqlang</label><i class="input-icon fas fa-lock"></i></div>
+            <div class="checkbox-group"><input type="checkbox" id="cTerms"><label for="cTerms">Men <a>Foydalanish shartlari</a> va <a>Maxfiylik siyosati</a> bilan tanishdim va roziman</label></div>
+            <button class="btn" style="width:100%;padding:16px;font-size:16px" onclick="handleClientReg()"><i class="fas fa-user-plus" style="margin-right:8px"></i>Ro'yxatdan o'tish</button>
+          </div>
+          
+          <!-- MASTER -->
+          <div id="masterRegister" style="display:none">
+            <div class="floating-group">
+              <div class="upload-area" onclick="document.getElementById('mPhoto').click()" style="padding:20px;margin-bottom:16px">
+                <i class="fas fa-camera" id="mPhotoIcon"></i>
+                <p id="mPhotoText">Profil rasmi (professional)</p>
+              </div>
+              <input type="file" id="mPhoto" class="hidden" accept="image/*" onchange="previewPhoto(this,'mPhotoIcon','mPhotoText')">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="floating-group"><input type="text" class="floating-input" id="mName" placeholder=" "><label class="floating-label">Ism</label><i class="input-icon fas fa-user"></i></div>
+              <div class="floating-group"><input type="text" class="floating-input" id="mSurname" placeholder=" "><label class="floating-label">Familiya</label><i class="input-icon fas fa-user"></i></div>
+            </div>
+            <div class="floating-group"><input type="tel" class="floating-input" id="mPhone" placeholder=" "><label class="floating-label">Telefon raqam</label><i class="input-icon fas fa-phone"></i></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="floating-group">
+                <select class="floating-input" id="mExp" style="padding-left:44px"><option value="">Tanlang...</option><option>1-3 yil</option><option>3-5 yil</option><option>5-10 yil</option><option>10+ yil</option></select>
+                <label class="floating-label" style="left:44px">Tajriba</label><i class="input-icon fas fa-briefcase"></i>
+              </div>
+              <div class="floating-group"><input type="number" class="floating-input" id="mSalary" placeholder=" "><label class="floating-label">Maosh (so'm/oy)</label><i class="input-icon fas fa-money-bill"></i></div>
+            </div>
+            <div style="margin-bottom:16px">
+              <label style="display:block;font-size:13px;color:var(--text-dim);margin-bottom:8px;font-weight:600">Portfolio (namunalar)</label>
+              <div class="upload-area" onclick="document.getElementById('mPortfolio').click()" style="padding:20px">
+                <i class="fas fa-images"></i><p>Rasm yuklash uchun bosing</p><span>Max 10 ta rasm</span>
+              </div>
+              <input type="file" id="mPortfolio" class="hidden" accept="image/*" multiple onchange="previewMulti(this)">
+              <div class="portfolio-upload" id="portfolioPreview"></div>
+            </div>
+            <div style="margin-bottom:16px">
+              <label style="display:block;font-size:13px;color:var(--text-dim);margin-bottom:8px;font-weight:600">Xizmat turlari</label>
+              <div class="skills-input" id="skillsList">
+                <span class="skill-tag">Arxitektura <i class="fas fa-times" onclick="this.parentElement.remove()"></i></span>
+                <span class="skill-tag">Euro remont <i class="fas fa-times" onclick="this.parentElement.remove()"></i></span>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <input type="text" id="newSkill" placeholder="Yangi xizmat qo'shing" style="flex:1;padding:10px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);color:var(--text)">
+                <button class="btn-ghost btn btn-sm" onclick="addSkill()"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+            <div class="floating-group">
+              <input type="password" class="floating-input" id="mPass" placeholder=" " oninput="checkStrength(this.value,'m')">
+              <label class="floating-label">Parol yarating</label><i class="input-icon fas fa-lock"></i>
+            </div>
+            <div class="strength-bars" id="mStrengthBars"><div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div></div>
+            <div class="strength-text" id="mStrengthText">Parol kuchsiz</div>
+            <div class="floating-group" style="margin-top:16px"><input type="password" class="floating-input" id="mConfirm" placeholder=" "><label class="floating-label">Parolni tasdiqlang</label><i class="input-icon fas fa-lock"></i></div>
+            <div class="checkbox-group"><input type="checkbox" id="mTerms"><label for="mTerms">Men <a>Ustalar shartlari</a> bilan tanishdim va roziman</label></div>
+            <button class="btn" style="width:100%;padding:16px;font-size:16px" onclick="handleMasterReg()"><i class="fas fa-user-tie" style="margin-right:8px"></i>Usta sifatida ro'yxatdan o'tish</button>
+          </div>
+          
+          <div class="auth-footer" id="authFooter">Allaqachon akkaunt bormi? <a onclick="switchAuth('login')">Kirish</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  © 2025 Al Meymor — O'zbekistondagi eng ishonchli ustalar platformasi
+</footer>
+
+<script>
+/* ============ DATA ============ */
+const categories = [
+  {icon:'fa-drafting-compass',name:'Arxitektura',desc:'Loyihalash, dizayn',count:'120+ usta',color:'#ffb547'},
+  {icon:'fa-hard-hat',name:'Qurilish',desc:'Bino-inshootlar',count:'340+ usta',color:'#ff7a59'},
+  {icon:'fa-gem',name:'Travertin',desc:'Tabiiy tosh',count:'85+ usta',color:'#34d399'},
+  {icon:'fa-home',name:'Euro remont',desc:'Modern remont',count:'420+ usta',color:'#7c5cff'},
+  {icon:'fa-fill-drip',name:'Beton',desc:'Beton quyish',count:'95+ usta',color:'#229ED9'},
+  {icon:'fa-faucet',name:'Santexnika',desc:'Suv tizimi',count:'280+ usta',color:'#f59e0b'},
+  {icon:'fa-couch',name:'Mebel',desc:'Maxsus mebel',count:'190+ usta',color:'#ec4899'},
+  {icon:'fa-ad',name:'Reklama',desc:'Banner, vyveska',count:'70+ usta',color:'#8b5cf6'},
+];
+
+const masters = [
+  {name:'Bobur Aliyev',role:'Arxitektor',rating:4.9,exp:'8 yil',price:'3M+',img:'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600'},
+  {name:'Sardor Toshmatov',role:'Mebel ustasi',rating:4.8,exp:'12 yil',price:'1.5M+',img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600'},
+  {name:'Doniyor Yusupov',role:'Euro remont',rating:5.0,exp:'6 yil',price:'5M+',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600'},
+  {name:'Jasur Ergashev',role:'Santexnik',rating:4.7,exp:'10 yil',price:'500K+',img:'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600'},
+  {name:'Otabek Kamolov',role:'Travertin ustasi',rating:4.9,exp:'7 yil',price:'2M+',img:'https://images.unsplash.com/photo-1604754742629-3e0498a8a83d?w=600'},
+  {name:'Murod Saidov',role:'Qurilishchi',rating:4.6,exp:'15 yil',price:'10M+',img:'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600'},
+  {name:'Akmal Rashidov',role:'Beton ustasi',rating:4.8,exp:'9 yil',price:'1M+',img:'https://images.unsplash.com/photo-1542884748-2b87b36c6b90?w=600'},
+  {name:'Shahzod Karimov',role:'Reklama ustasi',rating:4.7,exp:'5 yil',price:'800K+',img:'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600'},
+];
+
+const projects = [
+  {title:'Zamonaviy oshxona',cat:'Euro remont',master:'Doniyor Yusupov',before:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600',after:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600'},
+  {title:'Hammom remonti',cat:'Santexnika',master:'Jasur Ergashev',before:'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600',after:'https://images.unsplash.com/photo-1620626011761-996317b8d101?w=600'},
+  {title:'Mehmonxona',cat:'Euro remont',master:'Doniyor Yusupov',before:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600',after:'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600'},
+  {title:'Travertin fasad',cat:'Travertin',master:'Otabek Kamolov',before:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600',after:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600'},
+  {title:'Bog\' loyihasi',cat:'Arxitektura',master:'Bobur Aliyev',before:'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=600',after:'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600'},
+  {title:'Oshxona mebel',cat:'Mebel',master:'Sardor Toshmatov',before:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600',after:'https://images.unsplash.com/photo-1556909195-4e5d12d2c1c2?w=600'},
+];
+
+const serviceDetails = {
+  'Arxitektura':{desc:'Professional arxitektorlar tomonidan loyihalash xizmatlari',long:'Bizning arxitektorlar har qanday murakkablikdagi loyihalarni amalga oshiradi: kvartira, xususiy uy, ofis, do\'kon va boshqa obyektlar. Zamonaviy 3D vizualizatsiya, BIM texnologiyalari va shaxsiy yondashuv kafolatlanadi.',list:['3D vizualizatsiya','Loyiha hujjatlari','Interyer dizayn','Tashqi fasad loyihasi','Konsultatsiya'],color:'#ffb547',prices:[{name:'Standart',price:'2 500 000'},{name:'Premium',price:'5 000 000'},{name:'Maxsus',price:'Kelishiladi'}]},
+  'Qurilish':{desc:'Tugatuv qurilish ishlari "kalit topshirish" usulida',long:'Devor terish, suvash, pol quyish, shift va boshqa qurilish ishlari professional brigadalar tomonidan bajariladi. Sifat va muddatlar shartnomada belgilanadi.',list:['Devor terish','Suvash ishlari','Pol quyish','Shift montaj','Tashqi qoplama'],color:'#ff7a59',prices:[{name:'1 m²',price:'150 000'},{name:'Brigada (kun)',price:'500 000'},{name:'To\'liq loyiha',price:'Kelishiladi'}]},
+  'Travertin':{desc:'Tabiiy tosh bilan bezash va qoplash',long:'Travertin – bu tabiiy tosh bo\'lib, fasad, pol, devor va dekorativ elementlarda ishlatiladi. Bizning ustalar travertin bilan ishlashda eng yuqori malakaga ega.',list:['Fasad qoplash','Ichki dekoratsiya','Pol qoplash','Maxsus dizayn','Restavratsiya'],color:'#34d399',prices:[{name:'Fasad (1 m²)',price:'350 000'},{name:'Ichki (1 m²)',price:'250 000'},{name:'Maxsus',price:'Kelishiladi'}]},
+  'Euro remont':{desc:'Yevropa standartidagi premium darajadagi remont',long:'Loyihadan tortib jihozlash gacha — to\'liq euro remont xizmati. Eng yaxshi materiallar, zamonaviy uskunalar va tajribali ustalar bilan ishlaymiz.',list:['Demontaj','Elektr va santexnika','Tugatuv ishlari','Mebel va dekor','Tozalash'],color:'#7c5cff',prices:[{name:'1 m² (standart)',price:'300 000'},{name:'1 m² (premium)',price:'600 000'},{name:'To\'liq kvartira',price:'Kelishiladi'}]},
+  'Beton':{desc:'Beton quyish va beton ishlari',long:'Poydevor, plitalar, ustun va boshqa beton inshootlar. Yuqori sifatli beton va professional asboblar bilan ishlaymiz.',list:['Poydevor quyish','Plita quyish','Ustun va to\'sin','Beton tozalash','Mustahkamlash'],color:'#229ED9',prices:[{name:'1 m³',price:'500 000'},{name:'Plita',price:'1 200 000'},{name:'Maxsus',price:'Kelishiladi'}]},
+  'Santexnika':{desc:'Suv, kanalizatsiya va isitish tizimlari',long:'Yangi o\'rnatish, ta\'mirlash, almashtirish — barcha turdagi santexnika ishlari. Kafolatli xizmat va tezkor chiqish.',list:['Trubalar montaji','Kran-shayba o\'rnatish','Isitish tizimi','Avariya ta\'mir','Schyot o\'rnatish'],color:'#f59e0b',prices:[{name:'O\'rnatish',price:'200 000'},{name:'Ta\'mir',price:'300 000'},{name:'Avariya',price:'500 000'}]},
+  'Mebel':{desc:'Buyurtma asosida maxsus mebel ishlab chiqarish',long:'Oshxona, shkaf-kupe, ofis mebellari va boshqa maxsus loyihalar. O\'lcham olishdan o\'rnatishgacha to\'liq xizmat.',list:['O\'lcham olish','3D loyiha','Ishlab chiqarish','Yetkazib berish','O\'rnatish'],color:'#ec4899',prices:[{name:'Shkaf-kupe',price:'3 000 000'},{name:'Oshxona',price:'5 000 000'},{name:'Maxsus',price:'Kelishiladi'}]},
+  'Reklama':{desc:'Banner, vyveska, neon va tashqi reklama',long:'Korxonangiz uchun professional reklama materiallari: vyveska, banner, lightbox, neon va boshqa tashqi reklama.',list:['Vyveska tayyorlash','Banner bosish','Lightbox','Neon yoritgich','Avtomobil branding'],color:'#8b5cf6',prices:[{name:'Vyveska',price:'1 500 000'},{name:'Banner',price:'500 000'},{name:'Lightbox',price:'2 500 000'}]},
+};
+
+const reviews = [
+  {name:'Akmal Karimov',img:'https://i.pravatar.cc/100?img=12',rating:5,text:'Juda professional ish! Loyihani vaqtida tugatdi, sifati a\'lo darajada.'},
+  {name:'Nilufar Ergasheva',img:'https://i.pravatar.cc/100?img=45',rating:5,text:'Tavsiya qilaman. Narxi ham mos, sifat ham yaxshi. Rahmat!'},
+  {name:'Temur Malikov',img:'https://i.pravatar.cc/100?img=33',rating:4,text:'Yaxshi ishladi, ammo muddati ozgina kechikdi. Umuman yaxshi.'},
+];
+
+/* ============ RENDER ============ */
+function renderCatGrid(){
+  document.getElementById('catGrid').innerHTML=categories.map(c=>`
+    <div class="cat-card" onclick="openService('${c.name}')">
+      <div class="cat-icon" style="background:${c.color}22"><i class="fas ${c.icon}" style="color:${c.color}"></i></div>
+      <h3>${c.name}</h3><span>${c.desc} · ${c.count}</span>
+    </div>`).join('');
+  document.getElementById('catGridFull').innerHTML=categories.map(c=>`
+    <div class="cat-card" onclick="openService('${c.name}')">
+      <div class="cat-icon" style="background:${c.color}22"><i class="fas ${c.icon}" style="color:${c.color}"></i></div>
+      <h3>${c.name}</h3><span>${c.desc} · ${c.count}</span>
+    </div>`).join('');
+}
+
+function renderMasters(){
+  const top=document.getElementById('topMasters');
+  const all=document.getElementById('allMasters');
+  const saved=document.getElementById('savedMasters');
+  const html=masters.map(m=>`
+    <div class="master-card" onclick="openMaster('${m.name}')">
+      <div class="master-img" style="background-image:url(${m.img})"><span class="badge"><i class="fas fa-star"></i> ${m.rating}</span></div>
+      <div class="master-info"><h4>${m.name}</h4><div class="role">${m.role} · ${m.exp}</div>
+        <div class="master-meta"><span><i class="fas fa-map-marker-alt"></i> Toshkent</span><span class="price">${m.price} so'm</span></div>
+      </div>
+    </div>`).join('');
+  top.innerHTML=masters.slice(0,4).join('');
+  all.innerHTML=html;
+  saved.innerHTML=masters.slice(0,3).join('');
+}
+
+function renderBA(){
+  const html=projects.map(p=>`
+    <div class="ba-card">
+      <div class="ba-slider"><div class="ba-labels"><span>BEFORE</span><span>AFTER</span></div>
+        <img class="before-img" src="${p.before}"><img class="after-img" src="${p.after}"><div class="ba-handle"></div>
+      </div>
+      <div class="ba-info"><h4>${p.title}</h4><p>${p.cat} · ${p.master}</p></div>
+    </div>`).join('');
+  document.getElementById('baGrid').innerHTML=html;
+  document.getElementById('baGridFull').innerHTML=html;
+  initBA();
+}
+
+function initBA(){
+  document.querySelectorAll('.ba-slider').forEach(s=>{
+    const handle=s.querySelector('.ba-handle');
+    const after=s.querySelector('.after-img');
+    let dragging=false;
+    const move=(x)=>{const r=s.getBoundingClientRect();let p=((x-r.left)/r.width)*100;p=Math.max(0,Math.min(100,p));handle.style.left=p+'%';after.style.clipPath=`inset(0 0 0 ${p}%)`};
+    s.addEventListener('mousedown',e=>{dragging=true;move(e.clientX)});
+    window.addEventListener('mousemove',e=>dragging&&move(e.clientX));
+    window.addEventListener('mouseup',()=>dragging=false);
+    s.addEventListener('touchmove',e=>move(e.touches[0].clientX));
+  });
+}
+
+function renderChatList(){
+  document.getElementById('chatList').innerHTML=masters.slice(0,6).map((m,i)=>`
+    <div class="chat-item ${i===0?'active':''}" onclick="selectChat(this)">
+      <div class="avatar" style="background-image:url(${m.img})"></div>
+      <div><h5>${m.name}</h5><p>${['Salom! Loyiha haqida...','Tayyor bo\'ldi','Manzilingizni yuboring','Rahmat!','Ertaga keldim','Narx kelishaylik'][i]}</p></div>
+    </div>`).join('');
+}
+
+function renderFilters(){
+  document.getElementById('ratingChips').innerHTML=['5 yulduz','4+ yulduz','3+ yulduz'].map((c,i)=>`<span class="chip ${i===0?'active':''}" onclick="toggleChip(this)">${c}</span>`).join('');
+  document.getElementById('expChips').innerHTML=['1-3 yil','3-5 yil','5-10 yil','10+ yil'].map((c,i)=>`<span class="chip ${i===1?'active':''}" onclick="toggleChip(this)">${c}</span>`).join('');
+  document.getElementById('catChips').innerHTML=categories.map(c=>`<span class="chip" onclick="toggleChip(this)">${c.name}</span>`).join('');
+}
+
+function renderServiceCards(){
+  document.getElementById('serviceCards').innerHTML=Object.entries(serviceDetails).slice(0,4).map(([name,d])=>`
+    <div class="master-card" onclick="openService('${name}')">
+      <div class="master-img" style="background:linear-gradient(135deg,${d.color}22,${d.color}11);display:grid;place-items:center"><i class="fas ${categories.find(c=>c.name===name)?.icon||'fa-tools'}" style="font-size:48px;color:${d.color}"></i></div>
+      <div class="master-info"><h4>${name}</h4><div class="role">${d.desc}</div>
+        <div class="master-meta"><span>Batafsil →</span><span class="price">⭐ 4.9</span></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderServiceDetail(name){
+  const d=serviceDetails[name];
+  if(!d)return;
+  document.getElementById('sdTitle').textContent=name;
+  document.getElementById('sdDesc').textContent=d.desc;
+  document.getElementById('sdLong').textContent=d.long;
+  document.getElementById('sdList').innerHTML=d.list.map(x=>`<li>${x}</li>`).join('');
+  document.getElementById('sdHero').style.background=`linear-gradient(135deg,rgba(0,0,0,.6),transparent),url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200') center/cover`;
+  
+  document.getElementById('sdPortfolio').innerHTML=projects.slice(0,6).map(p=>`<img src="${p.after}" alt="${p.title}">`).join('');
+  
+  document.getElementById('sdReviews').innerHTML=reviews.map(r=>`
+    <div class="review">
+      <div class="review-head"><div class="avatar" style="background-image:url(${r.img})"></div><div><h5>${r.name}</h5><div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div></div></div>
+      <p style="color:var(--text-dim)">${r.text}</p>
+    </div>`).join('');
+  
+  document.getElementById('sdPrices').innerHTML=d.prices.map(p=>`
+    <div style="display:flex;justify-content:space-between;padding:14px;background:var(--surface-2);border-radius:10px;margin-bottom:8px">
+      <span>${p.name}</span><b style="color:var(--accent);font-family:'Space Grotesk'">${p.price} so'm</b>
+    </div>`).join('');
+  
+  document.getElementById('sdMasters').innerHTML=masters.slice(0,3).map(m=>`
+    <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+      <div class="avatar" style="width:40px;height:40px;background-image:url(${m.img})"></div>
+      <div style="flex:1"><h5 style="font-size:14px">${m.name}</h5><span style="color:var(--text-dim);font-size:12px">⭐ ${m.rating} · ${m.exp}</span></div>
+    </div>`).join('');
+}
+
+/* ============ NAVIGATION ============ */
+function go(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(p)?.classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.querySelector(`[data-link="${p}"]`)?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function openService(name){
+  renderServiceDetail(name);
+  go('serviceDetail');
+  document.querySelectorAll('#detailTabs button').forEach((b,i)=>{b.classList.toggle('active',i===0)});
+  document.querySelectorAll('.tab-content').forEach((t,i)=>{t.style.display=i===0?'block':'none'});
+}
+
+function openMaster(name){
+  const m=masters.find(x=>x.name===name);
+  if(m){
+    renderServiceDetail(m.role.split(' ')[0]==='Euro'?'Euro remont':m.role.split(' ')[0]);
+    go('serviceDetail');
+  }
+}
+
+function switchTab(e,id){
+  document.querySelectorAll('.tab-content').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+  e.target.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+
+function switchProfileTab(e,id){
+  document.querySelectorAll('.profile-tab').forEach(x=>x.style.display='none');
+  document.getElementById(id).style.display='block';
+  e.target.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+}
+
+function toggleChip(el){el.classList.toggle('active')}
+function selectChat(el){
+  document.querySelectorAll('.chat-item').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ============ THEME ============ */
+function toggleTheme(){
+  const b=document.body;
+  const cur=b.getAttribute('data-theme');
+  const nxt=cur==='dark'?'light':'dark';
+  b.setAttribute('data-theme',nxt);
+  document.getElementById('themeBtn').innerHTML=`<i class="fas fa-${nxt==='dark'?'moon':'sun'}"></i>`;
+}
+
+/* ============ AUTH ============ */
+function switchAuth(tab){
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+  if(tab==='login'){
+    document.querySelectorAll('.auth-tab')[0].classList.add('active');
+    document.getElementById('loginForm').style.display='block';
+    document.getElementById('registerForm').style.display='none';
+    document.getElementById('authTitle').textContent='Xush kelibsiz 👋';
+    document.getElementById('authSub').textContent='Davom etish uchun ma\'lumotlaringizni kiriting';
+  } else {
+    document.querySelectorAll('.auth-tab')[1].classList.add('active');
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('registerForm').style.display='block';
+    document.getElementById('authTitle').textContent='Ro\'yxatdan o\'tish';
+    document.getElementById('authSub').textContent='Yangi hisob yaratish uchun ma\'lumotlaringizni kiriting';
+  }
+}
+
+function selectRole(role){
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(role+'Role').classList.add('active');
+  document.getElementById('clientRegister').style.display=role==='client'?'block':'none';
+  document.getElementById('masterRegister').style.display=role==='master'?'block':'none';
+}
+
+function togglePass(id){
+  const input=document.getElementById(id);
+  const icon=input.parentElement.querySelector('.input-icon');
+  if(input.type==='password'){input.type='text';icon.className='input-icon fas fa-eye-slash'}
+  else{input.type='password';icon.className='input-icon fas fa-lock'}
+}
+
+function checkStrength(password,prefix){
+  let s=0;
+  if(password.length>=8)s++;if(password.match(/[a-z]/))s++;if(password.match(/[A-Z]/))s++;if(password.match(/[0-9]/))s++;if(password.match(/[^a-zA-Z0-9]/))s++;
+  const bars=document.querySelectorAll(`#${prefix}StrengthBars .strength-bar`);
+  const text=document.getElementById(`${prefix}StrengthText`);
+  const colors=['#ef4444','#f97316','#f59e0b','#10b981'];
+  const texts=['Kuchsiz','O\'rtacha','Yaxshi','Kuchli'];
+  bars.forEach(b=>b.style.background='var(--border)');
+  if(s>0){const l=Math.min(3,Math.floor((s-1)*.8));for(let i=0;i<=l;i++)bars[i].style.background=colors[l];text.textContent=texts[l];text.style.color=colors[l]}
+  else{text.textContent='Kuchsiz';text.style.color='var(--text-dim)'}
+}
+
+function previewPhoto(input,iconId,textId){
+  const file=input.files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const icon=document.getElementById(iconId);
+      icon.outerHTML=`<img src="${e.target.result}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent)">`;
+      document.getElementById(textId).textContent='Rasm yuklandi';
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function previewMulti(input){
+  const container=document.getElementById('portfolioPreview');
+  Array.from(input.files).slice(0,10).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const div=document.createElement('div');
+      div.className='portfolio-thumb';
+      div.innerHTML=`<img src="${e.target.result}"><div class="remove" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></div>`;
+      container.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function addSkill(){
+  const input=document.getElementById('newSkill');
+  if(input.value.trim()){
+    const span=document.createElement('span');
+    span.className='skill-tag';
+    span.innerHTML=`${input.value.trim()} <i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+    document.getElementById('skillsList').appendChild(span);
+    input.value='';
+  }
+}
+
+function handleLogin(){
+  const name=document.getElementById('loginName').value;
+  const pass=document.getElementById('loginPassword').value;
+  if(!name||!pass){alert('Iltimos, barcha maydonlarni to\'ldiring');return}
+  alert(`Xush kelibsiz, ${name}!`);
+  go('profile');
+}
+
+function handleClientReg(){
+  const name=document.getElementById('cName').value;
+  const surname=document.getElementById('cSurname').value;
+  const pass=document.getElementById('cPass').value;
+  const confirm=document.getElementById('cConfirm').value;
+  if(!name||!surname||!pass){alert('Iltimos, barcha maydonlarni to\'ldiring');return}
+  if(pass!==confirm){alert('Parollar mos kelmayapti');return}
+  alert(`Tabriklaymiz, ${name}! Ro'yxatdan o'tdingiz.`);
+  go('profile');
+}
+
+function handleMasterReg(){
+  const name=document.getElementById('mName').value;
+  const pass=document.getElementById('mPass').value;
+  const confirm=document.getElementById('mConfirm').value;
+  if(!name||!pass){alert('Iltimos, barcha maydonlarni to\'ldiring');return}
+  if(pass!==confirm){alert('Parollar mos kelmayapti');return}
+  alert(`Tabriklaymiz, ${name}! Usta sifatida ro'yxatdan o'tdingiz.`);
+  go('profile');
+}
+
+/* ============ CHAT ============ */
+function sendMsg(){
+  const input=document.getElementById('chatInput');
+  if(!input.value.trim())return;
+  const body=document.getElementById('chatBody');
+  const t=new Date().toLocaleTimeString('uz',{hour:'2-digit',minute:'2-digit'});
+  body.insertAdjacentHTML('beforeend',`<div class="msg out">${input.value}<span class="time">${t}</span></div>`);
+  input.value='';
+  body.scrollTop=body.scrollHeight;
+  document.getElementById('typingState').innerHTML='<i class="fas fa-circle" style="font-size:8px;margin-right:4px;color:var(--accent)"></i>typing...';
+  setTimeout(()=>{
+    body.insertAdjacentHTML('beforeend',`<div class="msg in">Tushunarli, hozir javob beraman 👍<span class="time">${new Date().toLocaleTimeString('uz',{hour:'2-digit',minute:'2-digit'})}</span></div>`);
+    body.scrollTop=body.scrollHeight;
+    document.getElementById('typingState').innerHTML='<i class="fas fa-circle" style="font-size:8px;margin-right:4px;color:var(--success)"></i>online';
+  },1500);
+}
+
+/* ============ ORDER ============ */
+function submitOrder(){
+  const name=document.getElementById('orderName').value;
+  const phone=document.getElementById('orderPhone').value;
+  if(!name||!phone){alert('Iltimos, ism va telefon raqamini kiriting');return}
+  alert(`Rahmat, ${name}! So'rovingiz qabul qilindi. Ustalar 24 soat ichida siz bilan bog'lanadi.`);
+  go('profile');
+}
+
+/* ============ INIT ============ */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderCatGrid();
+  renderMasters();
+  renderBA();
+  renderChatList();
+  renderFilters();
+  renderServiceCards();
+});
+</script>
+</body>
+</html>
